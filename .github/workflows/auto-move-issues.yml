@@ -12,10 +12,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN || github.token }}
           REPO: ${{ github.repository }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_STATE: ${{ github.event.pull_request.merged }}
         run: |
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_STATE="${{ github.event.pull_request.merged }}"
-
           # Extract issue number from PR body (Closes #N)
           ISSUE_NUM=$(echo "$PR_BODY" | grep -oP '(?<=Closes #)\d+' || true)
 
@@ -27,9 +26,9 @@ jobs:
           echo "Found issue reference: #$ISSUE_NUM"
 
           if [ "$PR_STATE" = "true" ]; then
-            echo "PR merged — issue #$ISSUE_NUM will be auto-closed by GitHub"
+            echo "PR merged - issue #$ISSUE_NUM will be auto-closed by GitHub"
           else
-            echo "PR opened — issue #$ISSUE_NUM is now in progress"
+            echo "PR opened - issue #$ISSUE_NUM is now in progress"
             gh issue comment $ISSUE_NUM --repo $REPO \
               --body "$(printf '%s\n' \
                 '**Status Update**' \
