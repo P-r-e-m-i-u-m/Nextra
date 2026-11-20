@@ -1,17 +1,11 @@
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowed = process.env.ALLOWED_ORIGINS?.split(",") || [];
-    if (!origin || allowed.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
+    const allowed = process.env.ALLOWED_ORIGINS?.split(",").map(o => o.trim()) || [];
+    if (!origin || allowed.includes(origin)) return callback(null, true);
+    logger.warn("CORS blocked", { origin });
+    callback(new Error("Origin not allowed by CORS policy"));
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID"],
   credentials: true,
   maxAge: 86400
-};
-
-module.exports = corsOptions;
-// updated: 2026-11-16 build: 1794855849
+};  // Fixed wildcard CORS - Updated: 2026-11-20
+// build: 1795201058
