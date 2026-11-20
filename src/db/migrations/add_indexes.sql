@@ -8,4 +8,4 @@ ON sessions(user_id, created_at DESC);
 
 CREATE INDEX IF NOT EXISTS idx_logs_created_level
 ON logs(created_at DESC, level)
--- updated: 2026-11-13 build: 1794588687
+-- updated: 2026-11-20 build: 1795195536
