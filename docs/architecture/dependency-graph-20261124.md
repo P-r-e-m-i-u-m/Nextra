@@ -90,4 +90,4 @@ External dependencies (Redis, PostgreSQL) only at config layer
 
 **Last dependency audit:** 2026-11-24
 **Total vulnerabilities:** 0
-<!-- generated: 1795480407 -->
+<!-- generated: 1795560816 -->
